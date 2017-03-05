@@ -1,0 +1,16 @@
+body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.navbar {
+  margin-bottom: 20px;
+}
+
+.btn-form {
+  /* control those class with name btn- form to float right side of the div*/
+  /* float item to right */
+  float:right;
+  /* margin item to save 10px  space to right */
+  margin-right:10px;
+}

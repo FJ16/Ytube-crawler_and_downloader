@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<form action="/register" method="post">
+   <!-- input extra change into base html-->
+   <!-- using post method for submitting this form and jump to login page-->
+    <div class="form-group">
+    <label for="exampleInputName">Name</label>
+      <!-- required means this form must has input-->
+      <!-- creating name attribute for getting this submission-->
+    <input type="text" class="form-control" id="exampleInputName" name="InputName" aria-describedby="nameHelp" placeholder="Enter your name"required maxlength="20">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputAccount">Account (Email address only)</label>
+      <!-- required means this form must has input-->
+      <!-- creating name attribute for getting this submission-->
+    <input type="email" class="form-control" id="exampleInputAccount" name="InputAccount" aria-describedby="accountHelp" placeholder="Enter account"required>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword">Password</label>
+    <input type="password" class="form-control" id="exampleInputPassword" name="InputPassword" placeholder="Password"required>
+  </div>
+    <small id="accountHelp" class="form-text text-muted">{{message}}</small>
+    <div><a href="/login">Login</a></div>
+    <br>
+  <button type="submit" class="btn btn-primary">Create</button>
+</form>
+{% endblock %}

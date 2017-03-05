@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+{% if session['account'] == None %}
+<!-- judge the none value first to make sure the common content will be printed-->
+<div align="center"><h5>Welcome! </h5></div>
+{% endif %}
+{% if session['account'] != None %}
+<div align="center"><h5>Hello! {{session['name']}}</h5></div>
+{% endif %}
+{% endblock %}

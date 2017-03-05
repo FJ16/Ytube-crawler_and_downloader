@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+<!-- lower function names are inalterable, space is ok , this is python django format -->
+{% block content %}
+<h1>{{result}}</h1>
+<!-- for loop for results no more than 20 items -->
+{% for item in range (0,21) %}
+<!-- only display the searched items -->
+{% if '{}'.format(item) in all_item %}
+<!-- use get to get video info by key and display title data first -->
+<!-- two {} for execute py in html-->
+{% if all_item.get('{}'.format(item))['img'] != '' %}
+<div class="card">
+    <div class="card-block">
+        <a href="{{all_item.get('{}'.format(item))['link']}}"><h4 class="card-title">
+            {{all_item.get('{}'.format(item))['title']}}</h4></a>
+    </div>
+    <div class="card-block">
+        <!-- add an a tag for super link in href and insert img in it as an img link-->
+        <!-- add default size of imgs, which is defined by youtube-->
+        <a href="{{all_item.get('{}'.format(item))['link']}}"><img class="card-img-top"
+                                                                   src="{{all_item.get('{}'.format(item))['img']}}"
+                                                                   alt="Card image cap" width="196" height="110"></a>
+        <p class="card-text">
+            <small class="text-muted"><i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;
+                {{all_item.get('{}'.format(item))['time']}}
+            </small>
+        </p>
+        <!-- using target=_blank to open a new page and this form is used to contain buttons-->
+        <form action="/download" target="_blank">
+            <!-- Indicates a dangerous or potentially negative action -->
+            <!-- Submit buttons dont have values so we set links'value to them. MP3 and MP4 are the values to indicate it is a mp3 link or mp4 link, separate with link value by & -->
+            <button type="submit" class="btn btn-primary btn-form" name="value"
+                    value="MP3&{{all_item.get('{}'.format(item))['link']}}"><i class="fa fa-download"
+                                                                               aria-hidden="true"></i>&nbsp;MP3
+            </button>
+            <!-- add new class name with btn-form so that we can use CSS to control all components with the class name btn-form -->
+            <button type="submit" class="btn btn-danger btn-form" name="value"
+                    value="MP4&{{all_item.get('{}'.format(item))['link']}}"><i class="fa fa-download"
+                                                                               aria-hidden="true"></i>&nbsp;MP4
+            </button>
+        </form>
+        <!-- using br to give a space -->
+        {% if session['account'] %}
+        {% if "{}".format(all_item.get('{}'.format(item))['link']) in favorite_video %}
+        <form>
+            <button disabled type="button" class="btn btn-warning btn-form"><i class="fa fa-heart" aria-hidden="true"></i>&nbsp;Added
+            </button>
+        </form>
+        {% endif %}
+        {% if "{}".format(all_item.get('{}'.format(item))['link']) not in favorite_video %}
+        <form action="/favorite" method="post">
+            <input type="hidden" name="url" value="{{url}}">
+            <input type="hidden" name="title" value="{{all_item.get('{}'.format(item))['title']}}">
+            <input type="hidden" name="link" value="{{all_item.get('{}'.format(item))['link']}}">
+            <input type="hidden" name="img" value="{{all_item.get('{}'.format(item))['img']}}">
+            <button type="submit" class="btn btn-warning btn-form"><i class="fa fa-heart-o" aria-hidden="true"></i>&nbsp;Favorite
+            </button>
+        </form>
+        {% endif %}
+        {% endif %}
+    </div>
+</div>
+
+{% endif %}
+{% endif %}
+{% endfor %}
+<br>
+<nav aria-label="..." class="nb">
+    <ul class="pagination justify-content-center">
+        <li class="page-item active">
+            <a class="page-link" href="#">1<span class="sr-only">(current)</span></a>
+        </li>
+        {% for page in range(0,8) %}
+        {% if '{}'.format(page) in all_pages %}
+        <!-- format call page map will get the key in the page map-->
+        <li class="page-item"><a class="page-link" href="{{all_pages.get('{}'.format(page))}}&currentpage={{page}}">{{page}}</a>
+        </li>
+        {% endif %}
+        {% endfor %}
+        <li class="page-item">
+            <a class="page-link" href="{{all_pages.get('{}'.format(page))}}&currentpage=2" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+{% endblock %}

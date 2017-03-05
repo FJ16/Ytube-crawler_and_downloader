@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+<!-- lower function names are inalterable, space is ok , this is python django format -->
+{% block content %}
+<!-- for loop for video in Video class-->
+{% for video in user_videos %}
+<div class="card">
+    <div class="card-block">
+        <!-- SINCE! we have already save the link atr in Video class, so we can get it easier-->
+        <a href="{{video.link}}"><h4 class="card-title">
+            {{video.title}}</h4></a>
+    </div>
+    <div class="card-block">
+        <!-- add an a tag for super link in href and insert img in it as an img link-->
+        <!-- add default size of imgs, which is defined by youtube-->
+        <a href="{{video.link}}"><img class="card-img-top"
+                                      src="{{video.img}}"
+                                      alt="Card image cap" width="196" height="110"></a>
+        <!-- using target=_blank to open a new page and this form is used to contain buttons-->
+        <form action="/download" target="_blank">
+            <!-- Indicates a dangerous or potentially negative action -->
+            <!-- Submit buttons dont have values so we set links'value to them. MP3 and MP4 are the values to indicate it is a mp3 link or mp4 link, separate with link value by & -->
+            <br>
+            <button type="submit" class="btn btn-primary btn-form" name="value"
+                    value="MP3&{{video.link}}"><i class="fa fa-download" aria-hidden="true"></i>&nbspMP3
+            </button>
+            <button type="submit" class="btn btn-danger btn-form" name="value"
+                    value="MP4&{{video.link}}"><i class="fa fa-download" aria-hidden="true"></i>&nbspMP4
+            </button>
+        </form>
+        <form action="/delete" method="post">
+            <!-- since action is on /delete page,  every action in this form will be executed in /delete page -->
+            <input type="hidden" name="link" value="{{video.link}}">
+            <button type="submit" class="btn btn-warning btn-form"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;
+                Remove
+            </button>
+        </form>
+    </div>
+</div>
+
+{% endfor %}
+{% endblock %}
